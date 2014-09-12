@@ -75,3 +75,26 @@ shutdown.exe /r /t 0 /d p:2:4 /c "Vagrant initial reboot"
 
 #wget http://dl.google.com/tag/s/appguid%3D%7B8A69D345-D564-463C-AFF1-A69D9E530F96%7D%26iid%3D%7B461B745B-599D-6E61-6963-AB379DA6EB24%7D%26lang%3Den%26browser%3D2%26usagestats%3D0%26appname%3DGoogle%2520Chrome%26needsadmin%3Dprefers%26installdataindex%3Ddefaultbrowser/edgedl/chrome/install/GoogleChromeStandaloneEnterprise.msi
 #msiexec /qn /i GoogleChromeStandaloneEnterprise.msi
+
+#REM Remove tty from CYGWIN environment variable in registry to avoid deprecation warnings
+#cmd /c reg delete HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\services\sshd\Parameters\Environment /v CYGWIN /f
+#cmd /c reg add HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\services\sshd\Parameters\Environment /v CYGWIN /t REG_SZ /d ntsecbinmode
+
+## Install browsers
+#wget http://dl.google.com/tag/s/appguid%3D%7B8A69D345-D564-463C-AFF1-A69D9E530F96%7D%26iid%3D%7B461B745B-599D-6E61-6963-AB379DA6EB24%7D%26lang%3Den%26browser%3D2%26usagestats%3D0%26appname%3DGoogle%2520Chrome%26needsadmin%3Dprefers%26in>
+#msiexec /qn /i GoogleChromeStandaloneEnterprise.msi
+#rm GoogleChromeStandaloneEnterprise.msi
+#
+#wget http://hicap.frontmotion.com/Firefox/Firefox-19.0/Firefox-19.0-en-US.msi
+#msiexec /qn /i Firefox-19.0-en-US.msi
+#rm Firefox-19.0-en-US.msi
+#
+#wget http://appldnld.apple.com/Safari5/041-5487.20120509.INU8B/SafariSetup.exe
+#/cygdrive/c/Program\ Files/7-Zip/7z.exe x SafariSetup.exe Safari.msi
+#msiexec /qn /i Safari.msi
+#rm SafariSetup.exe
+#rm Safari.msi
+#
+##Create additional shortcuts
+#cp /cygdrive/c/ProgramData/Microsoft/Windows/Start\ Menu/Programs/Safari.lnk /cygdrive/c/Documents\ and\ Settings/vagrant/Desktop
+#cp /cygdrive/c/Documents\ and\ Settings/vagrant/Start\ Menu/Programs/Internet\ Explorer.lnk /cygdrive/c/Documents\ and\ Settings/vagrant/Desktop
