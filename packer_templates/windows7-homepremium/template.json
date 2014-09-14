@@ -1,0 +1,58 @@
+{
+  "variables": {
+    "password": "vagrant",
+    "product_key": "",
+    "username": "vagrant"
+  },
+  "builders": [{
+    "name": "vagrant",
+    "type": "virtualbox-iso",
+    "boot_command": [
+      "{{user `product_key`}}<tab> <tab><tab><tab> <wait>"
+    ],
+    "boot_wait": "960s",
+    "disk_size": 20280,
+    "floppy_files": [
+      "floppy/Autounattend.xml",
+      "floppy/install-winrm.cmd",
+      "floppy/install-cygwin-sshd.bat",
+      "floppy/deuac.reg"
+    ],
+    "guest_os_type": "Windows7_64",
+    "iso_checksum": "203e92593699729480b4d268cc0aadc8",
+    "iso_checksum_type": "md5",
+    "iso_url": "http://msft.digitalrivercontent.net/win/X17-24209.iso",
+    "ssh_username": "{{user `username`}}",
+    "ssh_password": "{{user `password`}}",
+    "ssh_port": 22,
+    "ssh_wait_timeout": "10000s",
+    "shutdown_command": "shutdown.exe /p /f /d p:4:1",
+    "guest_additions_path": "VBoxGuestAdditions_{{.Version}}.iso",
+    "virtualbox_version_file": ".vbox_version",
+    "vboxmanage": [[
+      "modifyvm",
+      "{{.Name}}",
+      "--memory",
+      "512"
+    ], [
+      "modifyvm",
+      "{{.Name}}",
+      "--cpus",
+      "1"
+    ]]
+  }],
+  "provisioners": [{
+    "type": "shell",
+    "scripts": [
+      "scripts/postinstall.sh"
+    ],
+    "override": {
+      "vagrant": {
+        "execute_command": "sh '{{.Path}}'"
+      }
+    }
+  }],
+  "post-processors": [
+    "vagrant"
+  ]
+}
