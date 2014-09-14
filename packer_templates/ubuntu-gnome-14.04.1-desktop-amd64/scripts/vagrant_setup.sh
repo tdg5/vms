@@ -16,5 +16,5 @@ vagrant_public_key_url="https://raw.githubusercontent.com/mitchellh/vagrant/mast
 
 mkdir -p $ssh_dir
 wget $vagrant_public_key_url -qO $authorized_keys_file
-chmod 0600 $authorized_keys_file
 chown $user:$user $authorized_keys_file
+chmod -R go-rwsx $ssh_dir
