@@ -8,4 +8,8 @@ Vagrant::Config.run do |config|
   config.vm.define 'ubuntu-gnome' do |vagrant|
     vagrant.vm.box = 'ubuntu-gnome-14.04.1-desktop-amd64'
   end
+
+  config.vm.define 'ubuntu-server' do |vagrant|
+    vagrant.vm.box = 'ubuntu-14.04.1-server-amd64'
+  end
 end
