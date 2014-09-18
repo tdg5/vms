@@ -1,0 +1,99 @@
+{
+  "variables": {
+    "cm": "chef",
+    "cm_version": "",
+    "iso_url": "packer_cache/en_windows_8_x64_dvd_915440.iso",
+    "iso_checksum": "1ce53ad5f60419cf04a715cf3233f247e48beec4",
+    "password": "vagrant",
+    "product_key": "",
+    "username": "vagrant"
+  },
+  "builders": [{
+    "vm_name": "windows8-professional-x64",
+    "type": "vmware-iso",
+    "guest_os_type": "windows8-64",
+    "iso_url": "{{ user `iso_url` }}",
+    "iso_checksum": "{{ user `iso_checksum` }}",
+    "iso_checksum_type": "sha1",
+    "ssh_username": "{{ user `username` }}",
+    "ssh_password": "{{ user `password` }}",
+    "floppy_files": [
+      "../../lib/floppy/8/professional/Autounattend.xml",
+      "../../lib/floppy/00-run-all-scripts.cmd",
+      "../../lib/floppy/install-winrm.cmd",
+      "../../lib/floppy/powerconfig.bat",
+      "../../lib/floppy/01-install-wget.cmd",
+      "../../lib/floppy/_download.cmd",
+      "../../lib/floppy/_packer_config.cmd",
+      "../../lib/floppy/passwordchange.bat",
+      "../../lib/floppy/cygwin.sh",
+      "../../lib/floppy/cygwin.bat",
+      "../../lib/floppy/zz-start-sshd.cmd"
+    ],
+    "tools_upload_flavor": "windows",
+    "ssh_wait_timeout": "10000s",
+    "shutdown_command": "shutdown /s /t 1 /f /d p:4:1 /c 'Packer Shutdown'",
+    "disk_size": 40960,
+    "vmx_data": {
+      "cpuid.coresPerSocket": "1",
+      "memsize": "768",
+      "numvcpus": "1"
+    }
+  }, {
+    "vm_name": "windows8-professional-x64",
+    "type": "virtualbox-iso",
+    "guest_os_type": "Windows8_64",
+    "iso_url": "{{ user `iso_url` }}",
+    "iso_checksum": "{{ user `iso_checksum` }}",
+    "iso_checksum_type": "sha1",
+    "ssh_username": "{{ user `username` }}",
+    "ssh_password": "{{ user `password` }}",
+    "ssh_wait_timeout": "10000s",
+    "floppy_files": [
+      "../../lib/floppy/8/professional/Autounattend.xml",
+      "../../lib/floppy/00-run-all-scripts.cmd",
+      "../../lib/floppy/install-winrm.cmd",
+      "../../lib/floppy/powerconfig.bat",
+      "../../lib/floppy/01-install-wget.cmd",
+      "../../lib/floppy/_download.cmd",
+      "../../lib/floppy/_packer_config.cmd",
+      "../../lib/floppy/passwordchange.bat",
+      "../../lib/floppy/cygwin.sh",
+      "../../lib/floppy/cygwin.bat",
+      "../../lib/floppy/zz-start-sshd.cmd",
+      "../../lib/floppy/oracle-cert.cer"
+    ],
+    "shutdown_command": "shutdown /s /t 1 /f /d p:4:1 /c 'Packer Shutdown'",
+    "disk_size": 40960,
+    "vboxmanage": [
+      ["modifyvm", "{{ .Name }}", "--memory", "768"],
+      ["modifyvm", "{{ .Name }}", "--cpus", "1"]
+    ]
+  }],
+  "provisioners": [{
+    "type": "shell",
+    "remote_path": "/tmp/script.bat",
+    "environment_vars": [
+      "CM={{ user `cm` }}",
+      "CM_VERSION={{ user `cm_version` }}"
+    ],
+    "execute_command": "{{ .Vars }} cmd /c $(/bin/cygpath -m '{{ .Path }}')",
+    "scripts": [
+      "../../lib/scripts/vagrant.bat",
+      "../../lib/scripts/cmtool.bat",
+      "../../lib/scripts/vmtool.bat",
+      "../../lib/scripts/clean.bat",
+      "../../lib/scripts/ultradefrag.bat",
+      "../../lib/scripts/uninstall-7zip.bat",
+      "../../lib/scripts/sdelete.bat"
+    ]
+  }, {
+    "type": "shell",
+    "inline": ["rm -f /tmp/script.bat"]
+  }],
+  "post-processors": [{
+    "type": "vagrant",
+    "keep_input_artifact": false,
+    "compression_level": 1
+  }]
+}

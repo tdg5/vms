@@ -25,4 +25,10 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     node.vm.communicator = 'winrm'
     node.vm.provider('virtualbox') { |vbox| vbox.gui = true }
   end
+
+  config.vm.define 'win8-pro' do |node|
+    node.vm.box = 'windows8-professional-x64'
+    node.vm.communicator = 'winrm'
+    node.vm.provider('virtualbox') { |vbox| vbox.gui = true }
+  end
 end
