@@ -25,3 +25,4 @@ doc/
 # Packer artifacts
 packer_cache/
 *.box
+output-*
