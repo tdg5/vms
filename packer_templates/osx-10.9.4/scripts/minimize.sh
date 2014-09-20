@@ -1,25 +1,18 @@
-# Defragment drive
-periodic daily weekly monthly
-
-# Zero free space to aid VM compression
-dd if=/dev/zero of=/EMPTY bs=1M
-rm -f /EMPTY
-
 # Remove bash history
 unset HISTFILE
 rm -f /Users/vagrant/.bash_history
 
 # Cleanup log files
-find /var/log -type f | while read f; do echo -ne '' > $f; done;
+find /var/log -type f | while read f; do [ -f $f ] && echo -ne '' > $f; done;
 
-# Whiteout root
-count=`df --kP / | tail -n1  | awk -F ' ' '{print $4}'`;
-let count--
-dd if=/dev/zero of=/tmp/whitespace bs=1024 count=$count;
-rm /tmp/whitespace;
+# Run periodic maintenance tasks
+periodic daily weekly monthly
 
-# Whiteout /boot
-count=`df --sync -kP /boot | tail -n1 | awk -F ' ' '{print $4}'`;
-let count--
-dd if=/dev/zero of=/boot/whitespace bs=1024 count=$count;
-rm /boot/whitespace;
+# Zero free space to aid VM compression
+for dir in / /boot/ /tmp/; do
+  file="${dir}whitespace"
+  count=$(df -kP "$dir" | tail -n1 | awk -F ' ' '{ print $4 }')
+  let count--
+  dd if=/dev/zero of=$file bs=1024 count=$count
+  rm -f $file
+done

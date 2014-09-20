@@ -17,3 +17,7 @@ chown -R vagrant /Users/vagrant/.ssh
 # Create vagrant group and assign vagrant user to it
 dseditgroup -o create vagrant
 dseditgroup -o edit -a vagrant vagrant
+
+# Enable autologin for vagrant user
+cp /private/tmp/kcpassword /private/etc/kcpassword
+/usr/bin/defaults write /Library/Preferences/com.apple.loginwindow autoLoginUser vagrant
