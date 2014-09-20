@@ -1,0 +1,98 @@
+{
+  "builders": [
+    {
+      "boot_wait": "2s",
+      "disk_size": 20480,
+      "guest_os_type": "darwin12-64",
+      "iso_checksum_type": "none",
+      "iso_checksum": "{{user `iso_checksum`}}",
+      "iso_url": "{{user `iso_url`}}",
+      "shutdown_command": "echo 'vagrant'|sudo -S shutdown -h now",
+      "skip_compaction": true,
+      "ssh_password": "vagrant",
+      "ssh_port": 22,
+      "ssh_username": "vagrant",
+      "ssh_wait_timeout": "10000s",
+      "tools_upload_flavor": "darwin",
+      "type": "vmware-iso",
+      "vmx_data": {
+        "cpuid.coresPerSocket": "1",
+        "memsize": "2048",
+        "numvcpus": "1",
+        "firmware": "efi",
+        "keyboardAndMouseProfile": "macProfile",
+        "smc.present": "TRUE",
+        "hpet0.present": "TRUE",
+        "ich7m.present": "TRUE",
+        "ehci.present": "TRUE",
+        "usb.present": "TRUE"
+      }
+    },
+    {
+      "boot_wait": "2s",
+      "disk_size": 20480,
+      "guest_additions_mode": "disable",
+      "guest_os_type": "MacOS109_64",
+      "hard_drive_interface": "sata",
+      "iso_checksum_type": "md5",
+      "iso_checksum": "{{user `iso_checksum`}}",
+      "iso_interface": "sata",
+      "iso_url": "{{user `iso_url`}}",
+      "shutdown_command": "echo 'vagrant'|sudo -S shutdown -h now",
+      "ssh_password": "vagrant",
+      "ssh_port": 22,
+      "ssh_username": "vagrant",
+      "ssh_wait_timeout": "10000s",
+      "type": "virtualbox-iso",
+      "vboxmanage": [
+        ["modifyvm", "{{.Name}}", "--boot1", "dvd"],
+        ["modifyvm", "{{.Name}}", "--boot2", "disk"],
+        ["modifyvm", "{{.Name}}", "--chipset", "ich9"],
+        ["modifyvm", "{{.Name}}", "--firmware", "efi"],
+        ["modifyvm", "{{.Name}}", "--hpet", "on"],
+        ["modifyvm", "{{.Name}}", "--keyboard", "usb"],
+        ["modifyvm", "{{.Name}}", "--memory", "1536"],
+        ["modifyvm", "{{.Name}}", "--mouse", "usbtablet"],
+        ["modifyvm", "{{.Name}}", "--vram", "64"],
+        ["modifyvm", "{{.Name}}", "--audio", "none"]
+      ]
+    }
+  ],
+  "min_packer_version": "0.7.0",
+  "post-processors": [
+    "vagrant"
+  ],
+  "provisioners": [
+    {
+      "destination": "/private/tmp/kcpassword",
+      "source": "scripts/support/kcpassword",
+      "type": "file"
+    },
+    {
+      "execute_command": "chmod +x {{ .Path }}; sudo {{ .Vars }} {{ .Path }}",
+      "scripts": [
+        "scripts/vagrant.sh",
+        "scripts/xcode-cli-tools.sh",
+        "scripts/chef-omnibus.sh",
+        "scripts/add-network-interface-detection.sh",
+        "scripts/minimize.sh"
+      ],
+      "type": "shell"
+    },
+    {
+      "execute_command": "chmod +x {{ .Path }}; sudo {{ .Vars }} {{ .Path }}",
+      "inline": [
+        "[ -z \"{{user `autologin_vagrant_user`}}\" ] && exit",
+        "echo \"Enabling automatic GUI login for the 'vagrant' user..\"",
+        "cp /private/tmp/kcpassword /private/etc/kcpassword",
+        "/usr/bin/defaults write /Library/Preferences/com.apple.loginwindow autoLoginUser vagrant"
+      ],
+      "type": "shell"
+    }
+  ],
+  "variables": {
+    "autologin_vagrant_user": "vagrant",
+    "iso_checksum": "c5373800bf32775acc1fc852c39eb9ec",
+    "iso_url": "OSX_InstallESD_10.9.4_13E28.dmg"
+  }
+}
