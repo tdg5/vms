@@ -1,4 +1,4 @@
 source 'http://rubygems.org'
 
-gem 'veewee', '~> 0.3.7'
 gem 'em-winrm'
+gem 'racker', :git => 'https://github.com/tdg5/racker.git', :branch => :write_to_stdout
