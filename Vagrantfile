@@ -14,6 +14,13 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     node.vm.box = 'ubuntu-14.04.1-server-amd64'
   end
 
+  config.vm.define 'osx-10.9.5' do |node|
+    node.vm.box = 'osx-10.9.5'
+    # Disable shared folders
+    config.vm.synced_folder '.', '/vagrant', id: 'vagrant-root', :disabled => true
+    node.vm.provider('virtualbox') { |vbox| vbox.gui = true }
+  end
+
   config.vm.define 'win7-hp' do |node|
     node.vm.box = 'windows7-homepremium-x64'
     node.vm.communicator = 'winrm'
