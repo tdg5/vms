@@ -40,7 +40,7 @@ Racker::Processor.register_template do |server|
     'iso_checksum' => '{{ user `iso_checksum` }}',
     'iso_checksum_type' => '{{ user `iso_checksum_type` }}',
     'iso_url' => '{{ user `iso_url` }}',
-    'shutdown_command' => 'echo "shutdown -P now" > shutdown.sh; echo "{{ user `password` }}"|sudo -S sh "shutdown.sh"',
+    'shutdown_command' => 'echo "shutdown -P now" > shutdown.sh; echo "{{ user `password` }}" | sudo -S sh "shutdown.sh"',
     'ssh_password' => '{{ user `password` }}',
     'ssh_port' => 22,
     'ssh_username' => '{{ user `username` }}',
@@ -59,17 +59,26 @@ Racker::Processor.register_template do |server|
     'output' => 'ubuntu-14.04.1-server-amd64.box',
   }
 
+  override = {
+    'ubuntu-14.04.1-server-amd64' => {
+      'execute_command' => 'echo "{{ user `password` }}" | sudo -S bash "{{ .Path }}"',
+    },
+  }
   server.provisioners = {
     1000 => {
       'setup_machine' => {
-        'override' => {
-          'ubuntu-14.04.1-server-amd64' => {
-            'execute_command' => 'echo "{{ user `password` }}"|sudo -S bash "{{ .Path }}"',
-          },
-        },
+        'override' => override,
         'scripts' => [
           'scripts/vagrant.sh',
           'scripts/networking.sh',
+        ],
+        'type' => 'shell',
+      },
+    },
+    9000 => {
+      'minimize_machine' => {
+        'override' => override,
+        'scripts' => [
           'scripts/minimize.sh',
         ],
         'type' => 'shell',

@@ -1,0 +1,19 @@
+require 'rake'
+require 'rspec/core/rake_task'
+
+target_host = ENV['TARGET_HOST'] ||= begin
+  require 'socket'
+  Socket.gethostname
+end
+
+task :spec    => "spec:#{target_host}"
+task :default => :spec
+
+namespace :spec do
+  task :default => target_host
+
+  desc "Run serverspec tests for #{target_host}"
+  RSpec::Core::RakeTask.new(target_host) do |t|
+    t.pattern = "./#{target_host}/*_spec.rb"
+  end
+end
