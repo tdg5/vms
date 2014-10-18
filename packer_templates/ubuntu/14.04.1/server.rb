@@ -28,7 +28,7 @@ Racker::Processor.register_template do |server|
       ' netcfg/get_domain=vm<wait>',
       ' netcfg/get_hostname=vagrant<wait>',
       ' noapic<wait>',
-      ' preseed/url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/preseed.cfg<wait>',
+      ' preseed/url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/preseed_server.cfg<wait>',
       ' -- <wait>',
       '<enter><wait>'
     ],
@@ -69,8 +69,10 @@ Racker::Processor.register_template do |server|
       'setup_machine' => {
         'override' => override,
         'scripts' => [
+          'scripts/packages.sh',
           'scripts/vagrant.sh',
           'scripts/networking.sh',
+          'scripts/chef.sh',
         ],
         'type' => 'shell',
       },

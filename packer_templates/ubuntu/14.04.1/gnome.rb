@@ -1,6 +1,5 @@
 Racker::Processor.register_template do |gnome|
   gnome.variables = {
-    'confdir' => '.',
     'iso_checksum' => '31ac57691a45a381ded0ab2a3588b77a',
     'iso_checksum_type' => 'md5',
     'iso_url' => 'http://cdimage.ubuntu.com/ubuntu-gnome/releases/14.04/release/ubuntu-gnome-14.04.1-desktop-amd64.iso',
@@ -11,7 +10,7 @@ Racker::Processor.register_template do |gnome|
   gnome.builders['ubuntu-gnome-14.04.1-desktop-amd64'] = {
     'boot_command' => [
       '<enter><enter><esc><enter> <wait>',
-      '/casper/vmlinuz.efi url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/preseed.cfg ',
+      '/casper/vmlinuz.efi url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/preseed_gnome.cfg ',
       'hostname={{ .Name }} ',
       'initrd=/casper/initrd.lz boot=casper automatic-ubiquity noprompt --<enter><wait>',
     ],
@@ -20,7 +19,7 @@ Racker::Processor.register_template do |gnome|
     'guest_os_type' => 'Ubuntu_64',
     'hard_drive_interface' => 'sata',
     'headless' => false,
-    'http_directory' => '{{ user `confdir` }}/http',
+    'http_directory' => 'http',
     'iso_checksum' => '{{ user `iso_checksum` }}',
     'iso_checksum_type' => '{{ user `iso_checksum_type` }}',
     'iso_url' => '{{ user `iso_url` }}',
@@ -43,24 +42,31 @@ Racker::Processor.register_template do |gnome|
     'output' => 'ubuntu-gnome-14.04.1-desktop-amd64.box',
   }
 
+  override = {
+    'ubuntu-gnome-14.04.1-desktop-amd64' => {
+      'execute_command' => 'echo {{ user `password` }} | sudo -S bash "{{ .Path }}"',
+    },
+  }
+
   gnome.provisioners = {
     1000 => {
       'setup_root_and_vagrant_user' => {
-        'override' => {
-          'ubuntu-gnome-14.04.1-desktop-amd64' => {
-            'execute_command' => 'echo {{ user `password` }} | sudo -S bash "{{ .Path }}"',
-          },
-        },
+        'override' => override,
         'scripts' => [
-          '{{ user `confdir` }}/scripts/root_setup.sh',
-          '{{ user `confdir` }}/scripts/vagrant_setup.sh'
+          'scripts/packages.sh',
+          'scripts/vagrant.sh',
+          'scripts/networking.sh',
+          'scripts/chef.sh',
+          'scripts/gnome.sh',
         ],
         'type' => 'shell',
       },
-
-      'setup_user' => {
+    },
+    9000 => {
+      'minimize_machine' => {
+        'override' => override,
         'scripts' => [
-          '{{ user `confdir` }}/scripts/user_setup.sh',
+          'scripts/minimize.sh',
         ],
         'type' => 'shell',
       },

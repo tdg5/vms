@@ -2,7 +2,7 @@
 
 # Hack to install openssh-server on first boot via self destructing init script
 
-touch /target/tmp/preseed.sh.marker
+touch /target/tmp/preseed_gnome.marker
 cat <<\EOF > /target/etc/init.d/first_boot &&
 #!/bin/sh
 ### BEGIN INIT INFO
