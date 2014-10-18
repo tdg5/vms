@@ -1,3 +1,5 @@
+require_relative 'spec/server_spec'
+
 Racker::Processor.register_template do |server|
   server.variables = {
     'iso_checksum' => 'ca2531b8cd79ea5b778ede3a524779b9',

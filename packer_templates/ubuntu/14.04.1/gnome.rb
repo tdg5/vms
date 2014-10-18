@@ -1,3 +1,5 @@
+require_relative 'spec/gnome_spec'
+
 Racker::Processor.register_template do |gnome|
   gnome.variables = {
     'iso_checksum' => '31ac57691a45a381ded0ab2a3588b77a',
