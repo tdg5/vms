@@ -1,3 +1,5 @@
+require_relative 'spec/windows7'
+
 Racker::Processor.register_template do |win7hp|
   win7hp.variables = {
     'boot_wait' => '1200s',
@@ -64,11 +66,28 @@ Racker::Processor.register_template do |win7hp|
           '../lib/scripts/vagrant.bat',
           '../lib/scripts/cmtool.bat',
           '../lib/scripts/vmtool.bat',
+        ],
+      },
+      'cleanup' => {
+        'type' => 'shell',
+        'inline' => ['rm -f /tmp/script.bat'],
+      },
+    },
+    9000 => {
+      'minimize_system' => {
+        'type' => 'shell',
+        'remote_path' => '/tmp/script.bat',
+        'environment_vars' => [
+          'CM={{ user `cm` }}',
+          'CM_VERSION={{ user `cm_version` }}',
+        ],
+        'execute_command' => '{{ .Vars }} cmd /c $(/bin/cygpath -m "{{ .Path }}")',
+        'scripts' => [
           '../lib/scripts/clean.bat',
           '../lib/scripts/ultradefrag.bat',
           '../lib/scripts/uninstall-7zip.bat',
           '../lib/scripts/sdelete.bat',
-        ]
+        ],
       },
       'cleanup' => {
         'type' => 'shell',

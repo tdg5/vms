@@ -1,3 +1,5 @@
+require_relative 'spec/windows8'
+
 Racker::Processor.register_template do |win8pro|
   win8pro.variables = {
     'cm' => 'chef',
@@ -57,6 +59,23 @@ Racker::Processor.register_template do |win8pro|
           '../lib/scripts/vagrant.bat',
           '../lib/scripts/cmtool.bat',
           '../lib/scripts/vmtool.bat',
+        ],
+      },
+      'clean_up' => {
+        'type' => 'shell',
+        'inline' => ['rm -f /tmp/script.bat'],
+      },
+    },
+    9000 => {
+      'install_base_system' => {
+        'type' => 'shell',
+        'remote_path' => '/tmp/script.bat',
+        'environment_vars' => [
+          'CM={{ user `cm` }}',
+          'CM_VERSION={{ user `cm_version` }}'
+        ],
+        'execute_command' => '{{ .Vars }} cmd /c $(/bin/cygpath -m "{{ .Path }}")',
+        'scripts' => [
           '../lib/scripts/clean.bat',
           '../lib/scripts/ultradefrag.bat',
           '../lib/scripts/uninstall-7zip.bat',
@@ -67,7 +86,7 @@ Racker::Processor.register_template do |win8pro|
         'type' => 'shell',
         'inline' => ['rm -f /tmp/script.bat'],
       },
-    }
+    },
   }
 
   win8pro.postprocessors['vagrant'] = {
