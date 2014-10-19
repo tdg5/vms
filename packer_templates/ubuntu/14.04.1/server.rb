@@ -1,4 +1,4 @@
-require_relative 'spec/server_spec'
+require_relative 'spec/server'
 
 Racker::Processor.register_template do |server|
   server.variables = {

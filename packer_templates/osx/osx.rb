@@ -1,3 +1,5 @@
+require_relative 'spec/osx'
+
 Racker::Processor.register_template do |osx|
   osx.variables = {
     'password' => 'vagrant',

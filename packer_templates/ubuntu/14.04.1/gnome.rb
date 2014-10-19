@@ -1,4 +1,4 @@
-require_relative 'spec/gnome_spec'
+require_relative 'spec/gnome'
 
 Racker::Processor.register_template do |gnome|
   gnome.variables = {
