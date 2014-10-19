@@ -51,7 +51,6 @@ Racker::Processor.register_template do |osx|
         'scripts' => [
           'scripts/vagrant.sh',
           'scripts/xcode-cli-tools.sh',
-          'scripts/chef-omnibus.sh',
           'scripts/add-network-interface-detection.sh',
         ],
         'type' => 'shell',

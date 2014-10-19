@@ -2,8 +2,6 @@ require_relative 'spec/windows8'
 
 Racker::Processor.register_template do |win8pro|
   win8pro.variables = {
-    'cm' => 'chef',
-    'cm_version' => '',
     'iso_checksum' => '1ce53ad5f60419cf04a715cf3233f247e48beec4',
     'iso_checksum_type' => 'sha1',
     'iso_url' => 'packer_cache/en_windows_8_x64_dvd_915440.iso',
@@ -50,14 +48,9 @@ Racker::Processor.register_template do |win8pro|
       'install_base_system' => {
         'type' => 'shell',
         'remote_path' => '/tmp/script.bat',
-        'environment_vars' => [
-          'CM={{ user `cm` }}',
-          'CM_VERSION={{ user `cm_version` }}'
-        ],
-        'execute_command' => '{{ .Vars }} cmd /c $(/bin/cygpath -m "{{ .Path }}")',
+        'execute_command' => 'cmd /c $(/bin/cygpath -m "{{ .Path }}")',
         'scripts' => [
           '../lib/scripts/vagrant.bat',
-          '../lib/scripts/cmtool.bat',
           '../lib/scripts/vmtool.bat',
         ],
       },
@@ -70,11 +63,7 @@ Racker::Processor.register_template do |win8pro|
       'install_base_system' => {
         'type' => 'shell',
         'remote_path' => '/tmp/script.bat',
-        'environment_vars' => [
-          'CM={{ user `cm` }}',
-          'CM_VERSION={{ user `cm_version` }}'
-        ],
-        'execute_command' => '{{ .Vars }} cmd /c $(/bin/cygpath -m "{{ .Path }}")',
+        'execute_command' => 'cmd /c $(/bin/cygpath -m "{{ .Path }}")',
         'scripts' => [
           '../lib/scripts/clean.bat',
           '../lib/scripts/ultradefrag.bat',

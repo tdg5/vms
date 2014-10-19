@@ -58,7 +58,6 @@ Racker::Processor.register_template do |gnome|
           'scripts/packages.sh',
           'scripts/vagrant.sh',
           'scripts/networking.sh',
-          'scripts/chef.sh',
           'scripts/gnome.sh',
         ],
         'type' => 'shell',

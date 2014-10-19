@@ -74,7 +74,6 @@ Racker::Processor.register_template do |server|
           'scripts/packages.sh',
           'scripts/vagrant.sh',
           'scripts/networking.sh',
-          'scripts/chef.sh',
         ],
         'type' => 'shell',
       },

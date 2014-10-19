@@ -3,8 +3,6 @@ require_relative 'spec/windows7'
 Racker::Processor.register_template do |win7pro|
   win7pro.variables = {
     'boot_wait' => '1200s',
-    'cm' => 'chef',
-    'cm_version' => '',
     'iso_url' => 'http://msft.digitalrivercontent.net/win/X17-24281.iso',
     'iso_checksum' => '5ed2584110e03f498db4458ba9fafd5a7ef602ed',
     'iso_checksum_type' => 'sha1',
@@ -57,14 +55,9 @@ Racker::Processor.register_template do |win7pro|
       'setup_system' => {
         'type' => 'shell',
         'remote_path' => '/tmp/script.bat',
-        'environment_vars' => [
-          'CM={{ user `cm` }}',
-          'CM_VERSION={{ user `cm_version` }}',
-        ],
-        'execute_command' => '{{ .Vars }} cmd /c $(/bin/cygpath -m "{{ .Path }}")',
+        'execute_command' => 'cmd /c $(/bin/cygpath -m "{{ .Path }}")',
         'scripts' => [
           '../lib/scripts/vagrant.bat',
-          '../lib/scripts/cmtool.bat',
           '../lib/scripts/vmtool.bat',
         ],
       },
@@ -77,11 +70,7 @@ Racker::Processor.register_template do |win7pro|
       'setup_system' => {
         'type' => 'shell',
         'remote_path' => '/tmp/script.bat',
-        'environment_vars' => [
-          'CM={{ user `cm` }}',
-          'CM_VERSION={{ user `cm_version` }}',
-        ],
-        'execute_command' => '{{ .Vars }} cmd /c $(/bin/cygpath -m "{{ .Path }}")',
+        'execute_command' => 'cmd /c $(/bin/cygpath -m "{{ .Path }}")',
         'scripts' => [
           '../lib/scripts/clean.bat',
           '../lib/scripts/ultradefrag.bat',
