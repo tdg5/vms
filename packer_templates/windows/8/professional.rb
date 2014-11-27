@@ -36,7 +36,7 @@ Racker::Processor.register_template do |win8pro|
       '../lib/floppy/oracle-cert.cer',
     ],
     'shutdown_command' => '{{ user `shutdown_command` }}',
-    'disk_size' => 40960,
+    'disk_size' => 122880,
     'vboxmanage' => [
       ['modifyvm', '{{ .Name }}', '--memory', '768'],
       ['modifyvm', '{{ .Name }}', '--cpus', '1'],

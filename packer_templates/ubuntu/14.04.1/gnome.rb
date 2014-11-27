@@ -17,6 +17,7 @@ Racker::Processor.register_template do |gnome|
       'initrd=/casper/initrd.lz boot=casper automatic-ubiquity noprompt --<enter><wait>',
     ],
     'boot_wait' => '4s',
+    'disk_size' => 122880,
     'guest_additions_mode' => 'disable',
     'guest_os_type' => 'Ubuntu_64',
     'hard_drive_interface' => 'sata',

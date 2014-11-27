@@ -8,7 +8,7 @@ Racker::Processor.register_template do |osx|
 
   osx.builders['{{ user `vm_name` }}'] = {
     'boot_wait' => '2s',
-    'disk_size' => 20480,
+    'disk_size' => 122880,
     'guest_additions_mode' => 'disable',
     'guest_os_type' => 'MacOS109_64',
     'hard_drive_interface' => 'sata',

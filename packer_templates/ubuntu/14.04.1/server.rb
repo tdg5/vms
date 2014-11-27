@@ -35,7 +35,7 @@ Racker::Processor.register_template do |server|
       '<enter><wait>'
     ],
     'boot_wait' => '10s',
-    'disk_size' => 40960,
+    'disk_size' => 122880,
     'guest_additions_path' => 'VBoxGuestAdditions_{{ .Version }}.iso',
     'guest_os_type' => 'Ubuntu_64',
     'http_directory' => 'http',
