@@ -9,7 +9,7 @@ URLs, all Packer templates refer to ISOs as though they already live in the
 packer_cache of their respective template. However, unlike normal ISOs cached by
 Packer, the more cannonical ISO file names have been preserved with the hope
 that the cannonical name will be easier to search for than the typical SHA256
-sum of the ISO url provided by Packer. Typically, I keep a centralized cache of
+sum of the ISO URL provided by Packer. Typically, I keep a centralized cache of
 ISOs and create symlinks from the various packer_cache dirs to the respective
 ISOs in the centralized cache.
 
