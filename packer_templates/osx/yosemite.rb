@@ -1,8 +1,8 @@
 Racker::Processor.register_template do |yosemite|
   yosemite.variables = {
-    'iso_checksum' => '3f2302387ad3bcd3b9035245c76289c7',
+    'iso_checksum' => '2c64999a00ef1f2f017132c37384e557',
     'iso_checksum_type' => 'md5',
-    'iso_url' => 'packer_cache/OSX_InstallESD_10.10_14A389.dmg',
+    'iso_url' => 'packer_cache/OSX_InstallESD_10.10.1_14B25.dmg',
     'vm_name' => 'yosemite',
   }
 end
