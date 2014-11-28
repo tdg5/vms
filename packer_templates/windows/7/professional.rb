@@ -1,4 +1,4 @@
-require_relative 'spec/windows7'
+load File.expand_path('../spec/windows7.rb', __FILE__)
 
 Racker::Processor.register_template do |win7pro|
   win7pro.variables = {

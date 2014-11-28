@@ -1,4 +1,4 @@
-require_relative 'spec/windows8'
+load File.expand_path('../spec/windows8.rb', __FILE__)
 
 Racker::Processor.register_template do |win8pro|
   win8pro.variables = {

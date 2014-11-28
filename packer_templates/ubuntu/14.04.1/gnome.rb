@@ -1,4 +1,4 @@
-require_relative 'spec/gnome'
+load File.expand_path('../spec/gnome.rb', __FILE__)
 
 Racker::Processor.register_template do |gnome|
   gnome.variables = {

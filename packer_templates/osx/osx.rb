@@ -1,4 +1,4 @@
-require_relative 'spec/osx'
+load File.expand_path('../spec/osx.rb', __FILE__)
 
 Racker::Processor.register_template do |osx|
   osx.variables = {

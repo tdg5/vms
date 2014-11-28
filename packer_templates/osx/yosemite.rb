@@ -1,4 +1,4 @@
-require_relative 'osx'
+load File.expand_path('../osx.rb', __FILE__)
 
 Racker::Processor.register_template do |yosemite|
   yosemite.variables = {

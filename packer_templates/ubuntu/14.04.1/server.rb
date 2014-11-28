@@ -1,4 +1,4 @@
-require_relative 'spec/server'
+load File.expand_path('../spec/server.rb', __FILE__)
 
 Racker::Processor.register_template do |server|
   server.variables = {
