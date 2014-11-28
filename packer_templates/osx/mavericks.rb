@@ -1,3 +1,5 @@
+require_relative 'osx'
+
 Racker::Processor.register_template do |mavericks|
   mavericks.variables = {
     'iso_checksum' => '00a5420183525317dd3a16bbb25589a4',

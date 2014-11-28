@@ -1,3 +1,5 @@
+require_relative 'osx'
+
 Racker::Processor.register_template do |yosemite|
   yosemite.variables = {
     'iso_checksum' => '2c64999a00ef1f2f017132c37384e557',
