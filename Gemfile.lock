@@ -12,9 +12,11 @@ GEM
   specs:
     log4r (1.1.10)
     multi_json (1.10.1)
+    rake (10.3.2)
 
 PLATFORMS
   ruby
 
 DEPENDENCIES
   racker!
+  rake
