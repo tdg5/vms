@@ -26,11 +26,14 @@ the reader.
 
 ### Ubuntu
 [Ubuntu Gnome 14.04.1 amd64](http://cdimage.ubuntu.com/ubuntu-gnome/releases/14.04/release/ubuntu-gnome-14.04.1-desktop-amd64.iso)
+
 [Ubuntu Server 14.04.1 amd64](http://releases.ubuntu.com/14.04.1/ubuntu-14.04.1-server-amd64.iso)
 
 ### Windows
 [Windows 7 Home Premium SP1 x64](http://msft.digitalrivercontent.net/win/X17-24209.iso)
+
 [Windows 7 Professional SP1 x64](http://msft.digitalrivercontent.net/win/X17-24281.iso)
+
 Windows 8 Professional - Does not seem to be publicly available, however [an ISO
 can generated from an existing Windows 8 Professional
 install](http://www.howtogeek.com/186775/how-to-download-windows-7-8-and-8.1-installation-media-legally/).
