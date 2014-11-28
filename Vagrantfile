@@ -14,8 +14,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     node.vm.box = 'ubuntu-14.04.1-server-amd64'
   end
 
-  config.vm.define 'osx-10.9.5' do |node|
-    node.vm.box = 'osx-10.9.5'
+  config.vm.define 'mavericks' do |node|
+    node.vm.box = 'osx-10.9'
     # Disable shared folders
     config.vm.synced_folder '.', '/vagrant', id: 'vagrant-root', :disabled => true
     node.vm.provider('virtualbox') { |vbox| vbox.gui = true }
