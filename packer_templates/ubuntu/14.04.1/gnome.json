@@ -1,0 +1,98 @@
+{
+  "variables": {
+    "target_host": "ubuntu-gnome-14.04.1-desktop-amd64",
+    "iso_checksum": "31ac57691a45a381ded0ab2a3588b77a",
+    "iso_checksum_type": "md5",
+    "iso_url": "http://cdimage.ubuntu.com/ubuntu-gnome/releases/14.04/release/ubuntu-gnome-14.04.1-desktop-amd64.iso",
+    "password": "vagrant",
+    "username": "vagrant"
+  },
+  "builders": [
+    {
+      "boot_command": [
+        "<enter><enter><esc><enter> <wait>",
+        "/casper/vmlinuz.efi url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/preseed_gnome.cfg ",
+        "hostname={{ .Name }} ",
+        "initrd=/casper/initrd.lz boot=casper automatic-ubiquity noprompt --<enter><wait>"
+      ],
+      "boot_wait": "4s",
+      "disk_size": 122880,
+      "guest_additions_mode": "disable",
+      "guest_os_type": "Ubuntu_64",
+      "hard_drive_interface": "sata",
+      "headless": false,
+      "http_directory": "http",
+      "iso_checksum": "{{ user `iso_checksum` }}",
+      "iso_checksum_type": "{{ user `iso_checksum_type` }}",
+      "iso_url": "{{ user `iso_url` }}",
+      "shutdown_command": "echo {{ user `password` }} | sudo -S shutdown -P now",
+      "ssh_password": "{{ user `password` }}",
+      "ssh_username": "{{ user `username` }}",
+      "ssh_port": 22,
+      "ssh_wait_timeout": "10000s",
+      "type": "virtualbox-iso",
+      "vboxmanage": [
+        [
+          "modifyvm",
+          "{{ .Name }}",
+          "--memory",
+          "2048"
+        ],
+        [
+          "modifyvm",
+          "{{ .Name }}",
+          "--cpus",
+          "2"
+        ]
+      ],
+      "virtualbox_version_file": ".vbox_version",
+      "vm_name": "ubuntu-gnome-14.04.1-desktop-amd64",
+      "name": "ubuntu-gnome-14.04.1-desktop-amd64"
+    }
+  ],
+  "provisioners": [
+    {
+      "override": {
+        "ubuntu-gnome-14.04.1-desktop-amd64": {
+          "execute_command": "echo {{ user `password` }} | sudo -S bash \"{{ .Path }}\""
+        }
+      },
+      "scripts": [
+        "scripts/packages.sh",
+        "scripts/vagrant.sh",
+        "scripts/networking.sh",
+        "scripts/gnome.sh"
+      ],
+      "type": "shell"
+    },
+    {
+      "destination": "/tmp/spec",
+      "source": "/media/tdg5/hdd/Projects/vms/spec",
+      "type": "file"
+    },
+    {
+      "execute_command": "chmod +x {{ .Path }}; sudo {{ .Vars }} TARGET_HOST=\"{{ user `target_host` }}\" {{ .Path }}",
+      "scripts": [
+        "scripts/spec.sh"
+      ],
+      "type": "shell"
+    },
+    {
+      "override": {
+        "ubuntu-gnome-14.04.1-desktop-amd64": {
+          "execute_command": "echo {{ user `password` }} | sudo -S bash \"{{ .Path }}\""
+        }
+      },
+      "scripts": [
+        "scripts/minimize.sh"
+      ],
+      "type": "shell"
+    }
+  ],
+  "post-processors": [
+    {
+      "type": "vagrant",
+      "output": "ubuntu-gnome-14.04.1-desktop-amd64.box"
+    }
+  ]
+}

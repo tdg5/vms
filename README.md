@@ -37,58 +37,51 @@ install](http://www.howtogeek.com/186775/how-to-download-windows-7-8-and-8.1-ins
 
 ## How to build Vagrant boxes
 ### Basic Setup
-Packer, Vagrant, VirtualBox, and Ruby 2, are prerequisites for all templates.
-
-Clone and install bundle:
-```bash
-  git clone https://github.com/tdg5/vms.git
-  cd vms
-  bundle install
-```
+Packer, Vagrant, and VirtualBox are prerequisites for all templates.
 
 ### OSX
 #### OSX Mavericks (10.9.5)
 ```bash
   cd packer_templates/osx/
-  bundle exec racker mavericks.rb - | packer build -
+  packer build mavericks.json
 ```
 
 #### OSX Yosemite (10.10.1)
 ```bash
   cd packer_templates/osx/
-  bundle exec racker yosemite.rb - | packer build -
+  packer build yosemite.json
 ```
 
 ### Ubuntu
 #### Ubuntu Gnome 14.04.1
 ```bash
   cd packer_templates/ubuntu/14.04.1/
-  bundle exec racker gnome.rb - | packer build -
+  packer build gnome.json
 ```
 
 #### Ubuntu Server 14.04.1
 ```bash
   cd packer_templates/ubuntu/14.04.1/
-  bundle exec racker server.rb - | packer build -
+  packer build server.json
 ```
 
 ### Windows
 #### Windows 7 Home Premium
 ```bash
   cd packer_templates/windows/7/
-  bundle exec racker homepremium.rb - | packer build -
+  packer build homepremium.json
 ```
 
 #### Windows 7 Professional
 ```bash
   cd packer_templates/windows/7/
-  bundle exec racker professional.rb - | packer build -
+  packer build professional.json
 ```
 
 #### Windows 8 Professional
 ```bash
   cd packer_templates/windows/8/
-  bundle exec racker professional.rb - | packer build -
+  packer build professional.json
 ```
 
 ## Notes
